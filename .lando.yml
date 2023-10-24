@@ -1,0 +1,36 @@
+name: angular
+excludes:
+  - ./angular/node_modules
+services:
+  angular:
+    type: node:18
+    run_as_root:
+      - apt-get update
+      - rm -rf angular
+      - npm install -g @angular/cli
+      - cd /app && ng new angular
+      # - cd /app/angular && ng serve --host 0.0.0.0 --disable-host-check
+    scanner: false
+    port: 4200
+proxy:
+  angular:
+    - angular.lndo.site
+
+tooling:
+  npm:
+    service: angular
+    command: npm
+  ng:
+    service: angular
+    command: ng
+  node:
+    service: angular
+    command: node
+  nvm:
+    service: angular
+    command: nvm
+    # @todo run this by root to working.
+  ngstart:
+    service: angular
+    cmd:
+      - cd /app/angular && ng serve
